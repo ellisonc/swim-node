@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "standard --fix && nodemon src/app.js",
+    "debug": "node --inspect=9222 src/app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -21,11 +22,16 @@
   "dependencies": {
     "body-parser": "^1.18.2",
     "cors": "^2.8.4",
+    "dotenv": "^5.0.1",
     "express": "^4.16.2",
+    "mongoose": "^5.1.0",
     "morgan": "^1.9.0",
-    "nodemon": "^1.14.11"
+    "nodemon": "^1.14.11",
+    "superagent": "^3.8.3",
+    "throng": "^4.0.0"
   },
   "devDependencies": {
+    "debug": "^3.1.0",
     "standard": "^10.0.3"
   }
 }
