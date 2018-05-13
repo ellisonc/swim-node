@@ -1,5 +1,4 @@
-import mongoose from 'mongoose'
-const Schema = mongoose.Schema
+const mongoose = require('mongoose')
 
 export const Time = mongoose.model('Time', {
   age: Number,

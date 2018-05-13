@@ -1,4 +1,4 @@
-import mongoose from 'mongoose'
+const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
 export const User = mongoose.model('User', {
@@ -11,5 +11,5 @@ export const User = mongoose.model('User', {
   password: String,
 
   birthday: Date,
-  swimmer: { type: Schema.Types.ObjectId, ref: 'Swimmer'}
+  swimmer: {type: Schema.Types.ObjectId, ref: 'Swimmer'}
 })

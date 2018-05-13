@@ -1,11 +1,12 @@
-require('dotenv').load()
+const mongoose = require('mongoose')
 const debug = require('debug')('dbg')
 const express = require('express')
 const bodyParser = require('body-parser')
 const cors = require('cors')
 const morgan = require('morgan')
-import mongoose from 'mongoose'
 const request = require('superagent')
+require('dotenv').load()
+
 console.log(!!debug)
 
 // DB connect
@@ -16,7 +17,6 @@ mongoose.connect(process.env.DB_CONNECTION_STRING).then(() => {
 })
 
 const agent = request.agent()
-let verToken = ''
 setTimeout(runTest, 2000)
 function runTest () {
   agent.get('https://www.usaswimming.org/Home/times/individual-times-search')
@@ -28,7 +28,7 @@ function runTest () {
     let end = sub.indexOf("');")
     console.log(sub.slice(start, end))
     let token = sub.slice(start, end)
-    console.log("token:", token)
+    console.log('token:', token)
     runSearch(token)
   }).catch(err => {
     console.error(err)
@@ -44,11 +44,11 @@ function runSearch (token) {
   .field('divId', 'UsasTimeSearchIndividual_Index_Div_1')
   .field('FirstName', 'Andrew')
   .field('LastName', 'Ellison')
-  .field('SelectedDateType','DateRange')
-  .field('StartDate','')
+  .field('SelectedDateType', 'DateRange')
+  .field('StartDate', '')
   .field('EndDate', '')
   .field('DateRangeID', -1)
-  .field('SelectedEventType','All')
+  .field('SelectedEventType', 'All')
   .field('DSC[DistanceID]', 0)
   .field('DSC[StrokeID]', 0)
   .field('DSC[CourseID]', 0)
@@ -58,17 +58,17 @@ function runSearch (token) {
   .field('OrderBy', 'SwimDate')
   .then(res => {
     console.log(res)
-    if(res.text.includes('We found more than one person that matched the name you provided')){
-      console.log("Find Clubs")
-      let dataStart = res.text.indexOf("data: ") + 6
-      let dataEnd = res.text.indexOf("schema:")
+    if (res.text.includes('We found more than one person that matched the name you provided')) {
+      console.log('Find Clubs')
+      let dataStart = res.text.indexOf('data: ') + 6
+      let dataEnd = res.text.indexOf('schema:')
       console.log(dataStart, dataEnd)
-      console.log(res.text.slice(dataStart, dataEnd-19))
+      console.log(res.text.slice(dataStart, dataEnd - 19))
       let data = JSON.parse(res.text.slice(dataStart, dataEnd - 19))
-      console.log("data", data)
+      console.log('data', data)
       runTimes(data[1].PersonID, data[1].ClubName, token)
     } else {
-      console.log("We have the data?")
+      console.log('We have the data?')
     }
   })
 }
@@ -86,11 +86,11 @@ function runTimes (personId, clubName, token) {
   .field('SponsorWebsite', '')
   .field('FirstName', 'Andrew')
   .field('LastName', 'Ellison')
-  .field('SelectedDateType','DateRange')
-  .field('StartDate','')
+  .field('SelectedDateType', 'DateRange')
+  .field('StartDate', '')
   .field('EndDate', '')
   .field('DateRangeID', -1)
-  .field('SelectedEventType','All')
+  .field('SelectedEventType', 'All')
   .field('DSC[DistanceID]', 0)
   .field('DSC[StrokeID]', 0)
   .field('DSC[CourseID]', 0)
@@ -100,12 +100,12 @@ function runTimes (personId, clubName, token) {
   .field('OrderBy', 'SwimDate')
   .then(res => {
     console.log(res)
-    let dataStart = res.text.indexOf("data: ") + 6
-    let dataEnd = res.text.indexOf("pageSize:")
+    let dataStart = res.text.indexOf('data: ') + 6
+    let dataEnd = res.text.indexOf('pageSize:')
     console.log(dataStart, dataEnd)
-    console.log(res.text.slice(dataStart,dataEnd - 19))
+    console.log(res.text.slice(dataStart, dataEnd - 19))
     let data = JSON.parse(res.text.slice(dataStart, dataEnd - 19))
-    console.log("Data", data)
+    console.log('Data', data)
   })
 }
 
