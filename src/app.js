@@ -1,3 +1,5 @@
+import {Auth} from './auth/auth';
+import {UserService} from './services/UserService'
 const mongoose = require('mongoose')
 const debug = require('debug')('dbg')
 const express = require('express')
@@ -5,6 +7,7 @@ const bodyParser = require('body-parser')
 const cors = require('cors')
 const morgan = require('morgan')
 const request = require('superagent')
+const Passport = require('passport')
 require('dotenv').load()
 
 console.log(!!debug)
@@ -110,15 +113,21 @@ function runTimes (personId, clubName, token) {
 }
 
 // Begin App
+const authService = new Auth()
+authService.init()
 const app = express()
 app.use(morgan('combined'))
 app.use(bodyParser.json())
 app.use(cors())
+app.use(Passport.initialize())
 
 app.get('/status', (req, res) => {
   res.send({
     message: 'server online'
   })
 })
+
+const userService = new UserService()
+userService.init()
 
 app.listen(process.env.PORT || 3000)

@@ -9,6 +9,7 @@ export const User = mongoose.model('User', {
   username: String,
   email: String,
   password: String,
+  token: String,
 
   birthday: Date,
   swimmer: {type: Schema.Types.ObjectId, ref: 'Swimmer'}
