@@ -1,9 +1,10 @@
-import { User } from '../schemas/User';
-const passport = require('passport')
+import { User } from '../schemas/User'
+const Passport = require('passport')
 const Bearer = require('passport-http-bearer')
 const OAuth2orize = require('oauth2orize')
 const uuidV4 = require('uuid/v4')
 const server = OAuth2orize.createServer()
+const md5 = require('md5')
 
 
 
@@ -23,7 +24,9 @@ export class Auth {
         username: username,
         password: md5(password)
       }).then(user => {
-        if(user.token) {
+        if(!user){
+          done(new Error("Forbidden"))
+        }else if(user.token) {
           done(null, user.token, null, {user: user})
         } else {
           let token = uuidV4()

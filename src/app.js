@@ -20,7 +20,7 @@ mongoose.connect(process.env.DB_CONNECTION_STRING).then(() => {
 })
 
 const agent = request.agent()
-setTimeout(runTest, 2000)
+// setTimeout(runTest, 2000)
 function runTest () {
   agent.get('https://www.usaswimming.org/Home/times/individual-times-search')
   .then(res => {
@@ -128,6 +128,6 @@ app.get('/status', (req, res) => {
 })
 
 const userService = new UserService()
-userService.init()
+userService.init(app)
 
 app.listen(process.env.PORT || 3000)
