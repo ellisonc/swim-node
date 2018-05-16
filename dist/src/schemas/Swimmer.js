@@ -1,10 +1,10 @@
-'use strict';
+'use strict'
 
-Object.defineProperty(exports, "__esModule", {
+Object.defineProperty(exports, '__esModule', {
   value: true
-});
-var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
+})
+var mongoose = require('mongoose')
+var Schema = mongoose.Schema
 
 var Swimmer = exports.Swimmer = mongoose.model('Swimmer', {
   user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
@@ -12,4 +12,4 @@ var Swimmer = exports.Swimmer = mongoose.model('Swimmer', {
   usasId: String,
   clubName: String,
   LscId: String
-});
+})

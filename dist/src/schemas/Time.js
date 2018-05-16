@@ -1,9 +1,9 @@
-'use strict';
+'use strict'
 
-Object.defineProperty(exports, "__esModule", {
+Object.defineProperty(exports, '__esModule', {
   value: true
-});
-var mongoose = require('mongoose');
+})
+var mongoose = require('mongoose')
 
 var Time = exports.Time = mongoose.model('Time', {
   age: Number,
@@ -21,4 +21,4 @@ var Time = exports.Time = mongoose.model('Time', {
   stroke: String,
   date: Date,
   time: String
-});
+})

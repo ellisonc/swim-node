@@ -6,10 +6,8 @@ const uuidV4 = require('uuid/v4')
 const server = OAuth2orize.createServer()
 const md5 = require('md5')
 
-
-
 export class Auth {
-  init() {
+  init () {
     Passport.use(new Bearer.Strategy((token, done) => {
       User.findOne({token: token}).then(user => {
         done(null, user, null)
@@ -24,9 +22,9 @@ export class Auth {
         email: username,
         password: md5(password)
       }).then(user => {
-        if(!user){
-          done(new Error("Forbidden"))
-        }else if(user.token) {
+        if (!user) {
+          done(new Error('Forbidden'))
+        } else if (user.token) {
           done(null, user.token, null, {user: user})
         } else {
           let token = uuidV4()
@@ -41,7 +39,7 @@ export class Auth {
     }))
   }
 
-  static get server() {
+  static get server () {
     return server
   }
 }
