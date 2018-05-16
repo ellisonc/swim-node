@@ -37,7 +37,7 @@ var Auth = exports.Auth = function () {
 
       server.exchange(OAuth2orize.exchange.password(function (user, username, password, scope, done) {
         _User.User.findOne({
-          username: username,
+          email: username,
           password: md5(password)
         }).then(function (user) {
           if (!user) {

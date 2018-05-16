@@ -6,9 +6,10 @@ export const User = mongoose.model('User', {
   middleName: String,
   lastName: String,
 
-  username: String,
   email: String,
-  password: String,
+  password: {
+    type: String, select: false
+  },
   token: String,
 
   birthday: Date,

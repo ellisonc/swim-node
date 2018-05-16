@@ -21,7 +21,7 @@ export class Auth {
 
     server.exchange(OAuth2orize.exchange.password((user, username, password, scope, done) => {
       User.findOne({
-        username: username,
+        email: username,
         password: md5(password)
       }).then(user => {
         if(!user){
