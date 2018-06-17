@@ -39,10 +39,11 @@ export class SwimmerService {
             times: [],
             user: userId
           })
-          req.user.swimmer = created._id
-          req.user.save()
           return created.save()
         }
+      }).then((result) => {
+        req.user.swimmer = result._id
+        return req.user.save()
       }).then(() => {
         agent = request.agent()
         return this.getToken(agent)
