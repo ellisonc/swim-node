@@ -56,6 +56,7 @@ var SwimmerService = exports.SwimmerService = function () {
             token = void 0,
             agent = void 0;
         _Swimmer.Swimmer.findOne({ user: userId }).then(function (result) {
+          console.log(result);
           if (result) {
             created = result;
           } else {
@@ -66,7 +67,9 @@ var SwimmerService = exports.SwimmerService = function () {
             return created.save();
           }
         }).then(function (result) {
-          created = result;
+          if (result) {
+            created = result;
+          }
           return _User.User.findById(req.user._id);
         }).then(function (user) {
           user.swimmer = created._id;
@@ -80,9 +83,8 @@ var SwimmerService = exports.SwimmerService = function () {
         }).then(function (result) {
           console.log(result);
           if (result.times) {
-            //TODO times
             return _this.populateTimes(result.times, created._id);
-          } else {
+          } else if (result.clubs) {
             created.clubOptions = result.clubs.map(function (club) {
               return club.ClubName;
             });
@@ -90,6 +92,8 @@ var SwimmerService = exports.SwimmerService = function () {
               return club.PersonID;
             });
             return created.save();
+          } else {
+            return created;
           }
         }).then(function (result) {
           res.status(200).send(result);
@@ -222,7 +226,11 @@ var SwimmerService = exports.SwimmerService = function () {
             clubs: data,
             times: undefined
           });
-          //runTimes(data[1].PersonID, data[1].ClubName, token)
+        } else if (res.text.includes('We did not find any persons that matched the name information that you provided')) {
+          return Promise.resolve({
+            clubs: undefined,
+            times: undefined
+          });
         } else {
           var _dataStart = res.text.indexOf('data: ') + 6;
           var _dataEnd = res.text.indexOf('pageSize:');

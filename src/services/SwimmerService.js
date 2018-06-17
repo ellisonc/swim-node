@@ -32,6 +32,7 @@ export class SwimmerService {
       let userId = req.user._id
       let created, token, agent
       Swimmer.findOne({user: userId}).then(result => {
+        console.log(result)
         if(result){
           created = result
         } else {
@@ -42,7 +43,9 @@ export class SwimmerService {
           return created.save()
         }
       }).then((result) => {
-        created = result
+        if(result){
+          created = result
+        }
         return User.findById(req.user._id);
       }).then((user) => {
         user.swimmer = created._id
@@ -56,12 +59,13 @@ export class SwimmerService {
       }).then((result) => {
         console.log(result)
         if(result.times){
-          //TODO times
           return this.populateTimes(result.times, created._id)
-        } else {
+        } else if(result.clubs) {
           created.clubOptions = result.clubs.map(club => club.ClubName)
           created.personIdOptions = result.clubs.map(club => club.PersonID)
           return created.save()
+        } else {
+          return created
         }
       }).then((result) => {
         res.status(200).send(result)
@@ -211,7 +215,11 @@ export class SwimmerService {
           clubs: data,
           times: undefined
         });
-        //runTimes(data[1].PersonID, data[1].ClubName, token)
+      } else if(res.text.includes('We did not find any persons that matched the name information that you provided')){
+        return Promise.resolve({
+          clubs: undefined,
+          times: undefined
+        })
       } else {
         let dataStart = res.text.indexOf('data: ') + 6
         let dataEnd = res.text.indexOf('pageSize:')
