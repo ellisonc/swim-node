@@ -10,6 +10,8 @@ var _Time = require('./schemas/Time');
 
 var _UserService = require('./services/UserService');
 
+var _SwimmerService = require('./services/SwimmerService');
+
 var mongoose = require('mongoose');
 
 var debug = require('debug')('dbg');
@@ -45,6 +47,8 @@ app.get('/status', function (req, res) {
 });
 
 var userService = new _UserService.UserService();
+var swimmerService = new _SwimmerService.SwimmerService();
 userService.init(app);
+swimmerService.init(app);
 
 app.listen(process.env.PORT || 4200);

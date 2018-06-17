@@ -34,23 +34,27 @@ var UserService = exports.UserService = function () {
       });
 
       app.post('/users/create', function (req, res) {
-        var user = new _User.User({
-          firstName: req.body.firstName,
-          middleName: req.body.middleName || '',
-          lastName: req.body.lastName,
-          email: req.body.email,
-          password: md5(req.body.password),
-          birthday: new Date(req.body.birthday)
-        });
-        user.save(function (err, result) {
-          if (err) {
-            res.sendStatus(500);
-          } else {
-            var created = result.toObject();
-            delete created['password'];
-            res.status(200).send(created);
-          }
-        });
+        try {
+          var user = new _User.User({
+            firstName: req.body.firstName,
+            middleName: req.body.middleName || '',
+            lastName: req.body.lastName,
+            email: req.body.email,
+            password: md5(req.body.password),
+            birthday: new Date(req.body.birthday)
+          });
+          user.save(function (err, result) {
+            if (err) {
+              res.sendStatus(500);
+            } else {
+              var created = result.toObject();
+              delete created['password'];
+              res.status(200).send(created);
+            }
+          });
+        } catch (err) {
+          console.error(err);
+        }
       });
 
       app.get('/user', Passport.authenticate('bearer', { session: false }), function (req, res) {

@@ -11,5 +11,8 @@ var Swimmer = exports.Swimmer = mongoose.model('Swimmer', {
   times: [{ type: Schema.Types.ObjectId, ref: 'Time' }],
   usasId: String,
   clubName: String,
+  personId: String,
+  personIdOptions: [String],
+  clubOptions: [String],
   LscId: String
 });

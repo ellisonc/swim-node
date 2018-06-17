@@ -4,6 +4,7 @@ import {User} from './schemas/User'
 import {Swimmer} from './schemas/Swimmer'
 import {Time} from './schemas/Time'
 import {UserService} from './services/UserService'
+import {SwimmerService} from './services/SwimmerService'
 const debug = require('debug')('dbg')
 const express = require('express')
 const bodyParser = require('body-parser')
@@ -37,6 +38,8 @@ app.get('/status', (req, res) => {
 })
 
 const userService = new UserService()
+const swimmerService = new SwimmerService()
 userService.init(app)
+swimmerService.init(app)
 
 app.listen(process.env.PORT || 4200)
