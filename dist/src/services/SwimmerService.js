@@ -65,6 +65,9 @@ var SwimmerService = exports.SwimmerService = function () {
             });
             return created.save();
           }
+        }).then(function (result) {
+          req.user.swimmer = result._id;
+          return req.user.save();
         }).then(function () {
           agent = request.agent();
           return _this.getToken(agent);

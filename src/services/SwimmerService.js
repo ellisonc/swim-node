@@ -42,8 +42,11 @@ export class SwimmerService {
           return created.save()
         }
       }).then((result) => {
-        req.user.swimmer = result._id
-        return req.user.save()
+        created = result
+        return User.findById(req.user._id);
+      }).then((user) => {
+        user.swimmer = created._id
+        return user.save()
       }).then(() => {
         agent = request.agent()
         return this.getToken(agent)
